@@ -4,7 +4,7 @@ require "date"
 
 Gem::Specification.new do |s|
   s.name = "kdtree"
-  s.version = "0.1"
+  s.version = "0.1.1"
   s.date = Date.today.to_s
   s.files = ["ext/extconf.rb", "ext/kdtree.c", "LICENSE", "test/test.rb"]
   s.require_paths = ["."]
