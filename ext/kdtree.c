@@ -63,7 +63,7 @@ static void kdtree_free(struct kdtree_data *kdtreep)
     }
 }
 
-static void read_all(struct rb_io_t *fptr, char *buf, int len)
+static void read_all(rb_io_t *fptr, char *buf, int len)
 {
     while (len > 0) {
         int n = rb_io_fread(buf, len, fptr->f);
@@ -126,13 +126,14 @@ static VALUE kdtree_initialize(VALUE kdtree, VALUE arg)
         kdtreep->root = kdtree_build(kdtreep, 0, kdtreep->len, 0);
     } else if (rb_respond_to(arg, rb_intern("read"))) {
         VALUE io = arg;
-        struct rb_io_t *fptr;
+        rb_io_t *fptr;
         char buf[4];
         if (rb_respond_to(io, rb_intern("binmode"))) {
             rb_funcall2(io, rb_intern("binmode"), 0, 0);
         }
 
-        fptr = RFILE(rb_io_taint_check(io))->fptr;
+        rb_io_taint_check(io);
+        GetOpenFile(io, fptr);
         rb_io_check_readable(fptr);
 
         // check magic
