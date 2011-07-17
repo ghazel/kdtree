@@ -63,6 +63,9 @@ static void kdtree_free(struct kdtree_data *kdtreep)
     }
 }
 
+// removed since it is not supported by rubinius yet
+// https://github.com/rubinius/rubinius/issues/955
+/*
 static void read_all(rb_io_t *fptr, char *buf, int len)
 {
     while (len > 0) {
@@ -74,6 +77,7 @@ static void read_all(rb_io_t *fptr, char *buf, int len)
         len -= n;
     }
 }
+*/
 
 /*
  * call-seq:
@@ -124,6 +128,9 @@ static VALUE kdtree_initialize(VALUE kdtree, VALUE arg)
 
         // now build the tree
         kdtreep->root = kdtree_build(kdtreep, 0, kdtreep->len, 0);
+    // removed since it is not supported by rubinius yet
+    // https://github.com/rubinius/rubinius/issues/955
+    /*
     } else if (rb_respond_to(arg, rb_intern("read"))) {
         VALUE io = arg;
         rb_io_t *fptr;
@@ -149,6 +156,10 @@ static VALUE kdtree_initialize(VALUE kdtree, VALUE arg)
         read_all(fptr, (char *)kdtreep->nodes, sizeof(struct kdtree_node) * kdtreep->len);
     } else {
         rb_raise(rb_eTypeError, "array or IO required to init KDTree");
+    }
+    */
+    } else {
+        rb_raise(rb_eTypeError, "array required to init KDTree");
     }
     
     return kdtree;
